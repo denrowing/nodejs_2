@@ -1,4 +1,5 @@
 const User = require('../dataBase/User');
+const passwordService = require('../servise/password.servise');
 
 module.exports = {
 
@@ -22,6 +23,13 @@ module.exports = {
             console.log('******************');
             console.log(req.body);
             console.log('******************');
+
+            const hashedPassword = await passwordService.hash(req.body.password);
+
+            console.log('******************');
+            console.log(hashedPassword;
+            console.log('******************');
+
             const newUser = await User.create(req.body);
             res.json(newUser);
         } catch (e) {
@@ -33,8 +41,8 @@ module.exports = {
         try {
             // const {email, login} = req.params;
             const findByEmail = await User.find(req.body.email);
-            const findByLogin = await User.find(req.body.login);
-            if (findByEmail || findByLogin) {
+            const findByPassword = await User.find(req.body.password);
+            if (findByEmail || findByPassword) {
                 res.json('Your enter to system');
             } else {
                 throw new Error('No find such login or password');
