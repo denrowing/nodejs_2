@@ -1,5 +1,7 @@
 const User = require('../dataBase/User');
 const passwordService = require('../servise/password.servise');
+const userUtil = require('../util/user.util');
+
 
 module.exports = {
 
@@ -13,24 +15,40 @@ module.exports = {
     },
 
     getUserById: async (req, res) => {
-        const {user_id} = req.params;
-        const user = await User.findById(user_id);
-        res.json(user);
+        try {
+            const {user_id} = req.params;
+            const user = await User.findById(user_id).lean();
+
+            console.log('_______*********______');
+            console.log(user);
+            console.log('_______*********_______');
+
+            const normalizedUser = userUtil.userNormalizator(user);
+
+            console.log('_______normalizedUser______');
+            console.log(normalizedUser);
+            console.log('_______normalizedUser_______');
+
+            res.json(normalizedUser);
+        } catch(e) {
+            res.json(e.message);
+        }
     },
 
     createUser: async (req, res) => {
         try {
             console.log('******************');
-            console.log(req.body);
+            console.log(req.user);
             console.log('******************');
 
             const hashedPassword = await passwordService.hash(req.body.password);
 
             console.log('******************');
-            console.log(hashedPassword;
+            console.log(hashedPassword);
             console.log('******************');
 
-            const newUser = await User.create(req.body);
+
+            const newUser = await User.create({...req.body, password: hashedPassword});
             res.json(newUser);
         } catch (e) {
             res.json(e);
