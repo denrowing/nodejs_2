@@ -6,7 +6,8 @@ const userMiddleware= require('../middlewares/user.middleware');
 
 router.get('/', userController.getUsers);
 
-router.get('/:user_id', userController.getUserById);
+router.get('/:user_id',
+    userController.getUserById);
 
 // router.get('/:user_id', userController.getUserByIdJson);
 

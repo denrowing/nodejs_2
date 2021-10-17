@@ -5,25 +5,31 @@ const userUtil = require('../util/user.util');
 
 module.exports = {
 
-    getUsers: async (req, res) => {
+    getUsers: async (req, res, next) => {
         try {
             const users = await User.find();
             res.json(users);
         } catch (e) {
-            res.json(e);
+            next(e);
         }
     },
 
-    getUserById: async (req, res) => {
+    getUserById: async (req, res, next) => {
         try {
             const {user_id} = req.params;
-            const user = await User.findById(user_id).lean();
+            const user = await User
+                .findById(user_id)
+                // .select('+password')
+                // .select('-email')
+                .lean();
+
+            // isPasswordMatched()
 
             console.log('_______*********______');
             console.log(user);
             console.log('_______*********_______');
 
-            const normalizedUser = userUtil.userNormalizator(user);
+            const normalizedUser = userUtil.userNormalizator(user.toJSON());
 
             console.log('_______normalizedUser______');
             console.log(normalizedUser);
@@ -31,11 +37,11 @@ module.exports = {
 
             res.json(normalizedUser);
         } catch(e) {
-            res.json(e.message);
+            next(e);
         }
     },
 
-    createUser: async (req, res) => {
+    createUser: async (req, res, next) => {
         try {
             console.log('******************');
             console.log(req.user);
@@ -51,11 +57,11 @@ module.exports = {
             const newUser = await User.create({...req.body, password: hashedPassword});
             res.json(newUser);
         } catch (e) {
-            res.json(e);
+            next(e);
         }
     },
 
-    compareUser: async (req, res) => {
+    compareUser: async (req, res, next) => {
         try {
             // const {email, login} = req.params;
             const findByEmail = await User.find(req.body.email);
@@ -66,7 +72,7 @@ module.exports = {
                 throw new Error('No find such login or password');
             }
         } catch (e) {
-            res.json(e);
+            next(e);
         }
     },
 
