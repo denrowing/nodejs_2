@@ -78,5 +78,16 @@ module.exports = {
 
     updateUser: (req, res) => {
         res.json('UPDATE USER');
+    },
+
+    deleteAccount: (req, res, next) => {
+        try {
+            console.log('*******req.user***********');
+            console.log(req.user);
+            console.log('*******req.user***********');
+            res.json('OK');
+        } catch(e) {
+            next(e);
+        }
     }
 };

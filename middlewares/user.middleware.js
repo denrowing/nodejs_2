@@ -1,6 +1,6 @@
 const User = require('../dataBase/User');
 const userValidator = require('../validator/user.validator');
-const ErrorHandler = require("../errors/error.handler");
+const ErrorHandler = require("../errors/ErrorHandler");
 
 module.exports = {
     createUserMiddleware: async (req, res, next) => {
