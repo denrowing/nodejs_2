@@ -14,10 +14,6 @@ router.post(
     authMiddleware.isPasswordsMatched,
     authController.login
 );
-router.post(
-    '/logout',
-    authController.logout
-);
 
 router.post(
     '/refresh',
@@ -25,5 +21,9 @@ router.post(
     authController.refresh
 );
 
+router.post(
+    '/logout',
+    authController.logout
+);
 
 module.exports = router;

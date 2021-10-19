@@ -28,15 +28,6 @@ module.exports = {
         }
     },
 
-    logout: async (req, res, next) => {
-        try {
-            const users = await User.find();
-            res.json(users);
-        } catch (e) {
-            next(e);
-        }
-    },
-
     refresh: async (req, res, next) => {
         try {
             const { user } = req;
@@ -58,6 +49,17 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    logout: async (req, res, next) => {
+        try {
+            const users = await User.find();
+
+            res.json(users);
+        } catch (e) {
+            next(e);
+        }
+    },
+
 
 };
