@@ -1,7 +1,6 @@
 const User = require('../dataBase/User');
-const passwordService = require('../servise/password.servise');
+const {passwordService, emailService} = require('../servise');
 const userUtil = require('../util/user.util');
-
 
 module.exports = {
 
@@ -49,11 +48,7 @@ module.exports = {
 
             const hashedPassword = await passwordService.hash(req.body.password);
 
-            console.log('******************');
-            console.log(hashedPassword);
-            console.log('******************');
-
-
+            await emailService.sendMail(req.body.email);
             const newUser = await User.create({...req.body, password: hashedPassword});
             res.json(newUser);
         } catch (e) {
