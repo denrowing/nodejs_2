@@ -34,16 +34,16 @@ userSchema.virtual('fullname').get(function() {
     return `${this.name} ${this.role} HA-HA`;
 });
 
-// userSchema.methods = { // just for single record
-//     randomMethod() {
-//         console.log('*************************');
-//         console.log(this);
-//         console.log('*************************');
-//     },
-//     comparePassword(password) {
-//         return passwordService.compare(password, this.password);
-//     }
-// },
+userSchema.methods = { // just for single record
+    randomMethod() {
+        console.log('*************************');
+        console.log(this);
+        console.log('*************************');
+    },
+    comparePassword(password) {
+        return passwordService.compare(password, this.password);
+    }
+};
 
 userSchema.statics = {
     testStatic(msg) {

@@ -36,7 +36,11 @@ module.exports = {
 
             await jwtService.verifyToken(token);
 
-            const tokenResponce = await O_Auth.findOne({ access_token: token }).populate('user_id');
+            const tokenResponce = await O_Auth.findOne({ access_token: token });
+            // .populate('user_id');
+            console.log('tokenResponcetokenResponcetokenResponcetokenResponce');
+            console.log(tokenResponce);
+            console.log('tokenResponcetokenResponcetokenResponcetokenResponce');
 
             if(!tokenResponce) {
                 throw new ErrorHandler('Invalid token', 401);
@@ -65,9 +69,9 @@ module.exports = {
 
             await verToken.verifyToken(token, tokenTypeEnum.REFRESH);
 
-            const tokenResponce = await O_Auth
-                .findOne({ refresh_token: token })
-                .populate('user_id');
+            // const tokenResponse = await O_Auth
+            //     .findOne({ refresh_token: token });
+                // .populate('user_id');
 
             if(!tokenResponce) {
                 throw new ErrorHandler('Invalid token', 401);
