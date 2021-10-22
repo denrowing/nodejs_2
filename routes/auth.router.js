@@ -11,7 +11,7 @@ router.post(
         ADMIN,
         USER
     ]),
-    authMiddleware.isPasswordsMatched,
+    // authMiddleware.isPasswordsMatched,
     authController.login
 );
 

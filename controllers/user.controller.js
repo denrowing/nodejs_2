@@ -1,6 +1,7 @@
 const User = require('../dataBase/User');
-const {passwordService, emailService} = require('../servise');
+// const { emailService } = require('../servise');
 const userUtil = require('../util/user.util');
+// const { WELCOME } = require("../configs/email-actions.enum");
 
 module.exports = {
 
@@ -17,16 +18,13 @@ module.exports = {
         try {
             const {user_id} = req.params;
             const user = await User
-                .findById(user_id)
+                .findById(user_id);
                 // .select('+password')
                 // .select('-email')
-                .lean();
-
-            // isPasswordMatched()
-
-            console.log('_______*********______');
-            console.log(user);
-            console.log('_______*********_______');
+                // .lean();
+            // user.randomMethod();
+            // User.testStatic(222);
+            // isPasswordMatched();
 
             const normalizedUser = userUtil.userNormalizator(user.toJSON());
 
@@ -46,10 +44,11 @@ module.exports = {
             console.log(req.user);
             console.log('******************');
 
-            const hashedPassword = await passwordService.hash(req.body.password);
+            // const hashedPassword = await passwordService.hash(req.body.password);
 
-            await emailService.sendMail(req.body.email);
-            const newUser = await User.create({...req.body, password: hashedPassword});
+            // await emailService.sendMail(req.body.email, WELCOME, {userName: req.body.name});
+
+            const newUser = await User.createUserWithHashPassword(req.body);
             res.json(newUser);
         } catch (e) {
             next(e);
