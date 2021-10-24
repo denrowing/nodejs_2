@@ -13,4 +13,8 @@ module.exports = {
         templateName: 'us-b',
         subject: 'oops'
     },
+    [emailActionsEnum.FORGOT_PASSWORD]: {
+        templateName: 'forgot-password',
+        subject: 'Everybody forgot something'
+    },
 };

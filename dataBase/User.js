@@ -47,14 +47,16 @@ userSchema.methods = { // just for single record
 
 userSchema.statics = {
     testStatic(msg) {
-        console.log('****************');
+        console.log('*******************');
         console.log('TEST STATIC', msg);
         console.log('TEST STATIC', msg);
-        console.log('****************');
+        console.log('*******************');
     },
+
     async createUserWithHashPassword(userObject) {
-        const hashedPPassword = await passwordService.hash(userObject.password);
-        return this.create({...userObject, password: hashedPPassword});
+        const hashedPassword = await passwordService.hash(userObject.password);
+
+        return this.create({ ...userObject, password: hashedPassword });
     }
 };
 

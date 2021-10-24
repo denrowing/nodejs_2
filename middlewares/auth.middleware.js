@@ -1,29 +1,12 @@
 const { AUTORIZATION } = require('../configs/constants');
 const tokenTypeEnum = require('../configs/token-type.enum');
-const {jwtService, passwordService} = require('../servise');
+const { jwtService } = require('../servise');
 const verToken = require('../servise/jwt.service');
 
-const ErrorHandler = require("../errors/ErrorHandler");
+const ErrorHandler = require('../errors/ErrorHandler');
 const O_Auth = require('../dataBase/O_Auth');
 
 module.exports = {
-    isPasswordsMatched: async (req, res, next) => {
-        try {
-            const { password } = req.body;
-            const { password: hashPassword } = req.user;
-
-            await passwordService.compare(password, hashPassword);
-
-            console.log('___________________');
-            console.log(password);
-            console.log('___________________');
-
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
 
     checkAccessToken: async (req, res, next) => {
         try {
@@ -71,7 +54,7 @@ module.exports = {
 
             // const tokenResponse = await O_Auth
             //     .findOne({ refresh_token: token });
-                // .populate('user_id');
+            // .populate('user_id');
 
             if(!tokenResponce) {
                 throw new ErrorHandler('Invalid token', 401);

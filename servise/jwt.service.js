@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const ErrorHandler = require('../errors/ErrorHandler');
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = require('../configs/config');
 const tokenTypeEnum = require('../configs/token-type.enum');
+const {FORGOT_PASSWORD} = require("../configs/action-token-type.enum");
+// const {deleteAccount} = require("../controllers/user.controller");
 
 module.exports = {
     generateTokenPair: () => {
@@ -22,5 +24,17 @@ module.exports = {
         } catch(e) {
             throw new ErrorHandler('Invalid token', 401);
         }
+    },
+    generateActionToken: (actionTokenType) => {
+        let secretWord;
+        switch (actionTokenType) {
+            case FORGOT_PASSWORD:
+                secretWord = 'Hello';
+                break;
+            default:
+                throw new ErrorHandler('Wrong token type', 500);
+        }
+
+        return jwt.sign({}, secretWord, { expiresIn: '24h' });
     }
 };
