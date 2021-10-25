@@ -6,6 +6,7 @@ const { jwtService, emailService} = require('../servise');
 const ErrorHandler = require('../errors/ErrorHandler');
 const actionTokenTypeEnum = require('../configs/action-token-type.enum');
 const EmailActionEnum = require('../configs/email-actions.enum');
+const {AUTORIZATION} = require("../configs/constants");
 
 
 module.exports = {
@@ -88,6 +89,18 @@ module.exports = {
                     `https://localhost:3000/passwordForgot?token=${actionToken}` });
 
             res.json('OK');
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    setNewPasswordAfterForgot: (req, res, next) => {
+        try {
+            const actionToken = req.get(AUTORIZATION);
+            console.log(req.body);
+
+            console.log(actionToken);
+            res.json('GOOOOD');
         } catch (e) {
             next(e);
         }

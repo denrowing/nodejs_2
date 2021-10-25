@@ -1,13 +1,13 @@
-const {Schema, model} = require('mongoose');
-const userRoles = require("../configs/user-roles.enum");
-const {passwordService} = require("../servise");
+const { Schema, model } = require('mongoose');
 
+const userRoles = require('../configs/user-roles.enum');
+const { passwordService } = require('../servise');
 
 const userSchema = new Schema({
     name: {
         type: String,
-        unique: true,
         required: true,
+        trim: true
     },
     email: {
         type: String,
@@ -19,27 +19,26 @@ const userSchema = new Schema({
         type: String,
         required: true,
         trim: true,
-        select: false
+        // select: false
     },
     role: {
         type: String,
         default: userRoles.USER,
         enum: Object.values(userRoles)
     }
-}, {timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true }});
+}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
-userSchema.virtual('fullname').get(function() {
-
-    console.log('THIS!!!!!');
+userSchema.virtual('fullName').get(function() {
     return `${this.name} ${this.role} HA-HA`;
 });
 
 userSchema.methods = { // just for single record
     randomMethod() {
-        console.log('*************************');
+        console.log('**********************************************');
         console.log(this);
-        console.log('*************************');
+        console.log('**********************************************');
     },
+
     comparePassword(password) {
         return passwordService.compare(password, this.password);
     }

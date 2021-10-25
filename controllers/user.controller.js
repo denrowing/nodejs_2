@@ -1,86 +1,70 @@
+const { WELCOME } = require("../configs/email-actions.enum");
 const User = require('../dataBase/User');
-// const { emailService } = require('../servise');
+const { emailService } = require('../servise');
 const userUtil = require('../util/user.util');
-// const { WELCOME } = require("../configs/email-actions.enum");
 
 module.exports = {
-
     getUsers: async (req, res, next) => {
         try {
             const users = await User.find();
+
             res.json(users);
         } catch (e) {
             next(e);
         }
+
     },
 
     getUserById: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
+            const { user_id } = req.params;
             const user = await User
                 .findById(user_id);
-                // .select('+password')
-                // .select('-email')
-                // .lean();
+            // .select('+password')
+            // .select('-email')
+
             // user.randomMethod();
             // User.testStatic(222);
-            // isPasswordMatched();
 
-            const normalizedUser = userUtil.userNormalizator(user.toJSON());
+            const normalizedUser = userUtil.userNormalizator(user);
 
-            console.log('_______normalizedUser______');
+            console.log('______________normalizedUser_______________________________');
             console.log(normalizedUser);
-            console.log('_______normalizedUser_______');
+            console.log('______________normalizedUser_______________________________');
 
             res.json(normalizedUser);
-        } catch(e) {
+        } catch (e) {
             next(e);
         }
     },
 
     createUser: async (req, res, next) => {
         try {
-            console.log('******************');
-            console.log(req.user);
-            console.log('******************');
+            console.log('*************************************************');
+            console.log(req.body);
+            console.log('*************************************************');
 
-            // const hashedPassword = await passwordService.hash(req.body.password);
-
-            // await emailService.sendMail(req.body.email, WELCOME, {userName: req.body.name});
+            await emailService.sendMail(req.body.email, WELCOME, { userName: req.body.name });
 
             const newUser = await User.createUserWithHashPassword(req.body);
+
             res.json(newUser);
         } catch (e) {
             next(e);
         }
     },
 
-    compareUser: async (req, res, next) => {
-        try {
-            // const {email, login} = req.params;
-            const findByEmail = await User.find(req.body.email);
-            const findByPassword = await User.find(req.body.password);
-            if (findByEmail || findByPassword) {
-                res.json('Your enter to system');
-            } else {
-                throw new Error('No find such login or password');
-            }
-        } catch (e) {
-            next(e);
-        }
-    },
-
     updateUser: (req, res) => {
-        res.json('UPDATE USER');
+        res.json('YODATE USER');
     },
 
     deleteAccount: (req, res, next) => {
         try {
-            console.log('*******req.user***********');
+            console.log('****************************************');
             console.log(req.user);
-            console.log('*******req.user***********');
+            console.log('****************************************');
             res.json('OK');
-        } catch(e) {
+        } catch (e) {
             next(e);
         }
     }
