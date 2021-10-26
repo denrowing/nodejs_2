@@ -7,7 +7,7 @@ const rateLimit = require("express-rate-limit");
 
 
 const { NODE_ENV, ALLOWED_ORIGIN, MONGO_CONNECT_URL, PORT} = require('./configs/config');
-const startCrone = require('./cron/index');
+// const startCrone = require('./cron/index');
 
 const ErrorHandler = require('./errors/ErrorHandler');
 const checkIsUserAdmin = require('./util/default-data.util');
@@ -48,7 +48,7 @@ app.use('*', (err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
     checkIsUserAdmin();
-    startCrone();
+    // startCrone();
 });
 
 function _configureCors(origin, callback) {
