@@ -1,0 +1,238 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "June-2021",
+    "version": "1.0",
+    "description": "Backend engine for site",
+    "contact": {
+      "email": "denska@gmail.com",
+      "name": "Denys"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "operationId": "createUser",
+        "description": "This is how to create user",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "default": "Denys",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "example@email.com",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "Hello_World!1",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "example": "Something was wrong"
+                },
+                "code": {
+                  "type": "number",
+                  "example": 400
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Ths is `access_token` from POST /auth endpoint",
+            "default": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "default": 20,
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/singleUser"
+              }
+            }
+          },
+          "400": {
+            "description": "Just an error",
+            "schema": {
+              "$ref": "#/definitions/commonError"
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": ["O_Auth"],
+        "operationId": "login User",
+        "description": "Validation email, password and token while login User",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "Denys",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "default": "example@gmail.com",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was login",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "418": {
+            "description": "Wrong email or password",
+            "schema": {
+              "$ref": "#/definitions/emailOrPasswordError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": ["O_Auth"],
+        "operationId": "Refresh User password & token",
+        "description": "Validation email, refresh token and password of User",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "default": "examplegmail.com",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password was refreshed",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "schema": {
+              "$ref": "#/definitions/invalidToken"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "singleUser": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "123456qwerty",
+          "description": "MongoDB ID"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@email.com"
+        },
+        "name": {
+          "type": "string",
+          "example": "Denys"
+        }
+      }
+    },
+    "commonError": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string",
+          "example": "Something was wrong"
+        },
+        "code": {
+          "type": "number",
+          "example": 400
+        }
+      }
+    },
+    "emailOrPasswordError": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string",
+          "example": "Wrong email or password'"
+        },
+        "code": {
+          "type": "number",
+          "example": 418
+        }
+      }
+    },
+    "invalidToken": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string",
+          "example": "Invalid token"
+        },
+        "code": {
+          "type": "number",
+          "example": 401
+        }
+      }
+    }
+  }
+}
