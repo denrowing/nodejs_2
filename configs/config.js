@@ -11,4 +11,8 @@ module.exports = {
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL,
 
     ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN || 'http://localhost:3000',
+    AWS_SE_REGION:process.env.AWS_SE_REGION,
+    AWS_S3_NAME:process.env.AWS_S3_name,
+    AWS_S3_ACCESS_KEY:process.env.AWS_S3_ACCESS_KEY,
+    AWS_S3_SECRET_KEY:process.env.AWS_S3_SECRET_KEY
 };
