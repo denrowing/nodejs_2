@@ -1,6 +1,6 @@
-const { WELCOME } = require("../configs/email-actions.enum");
+// const { WELCOME } = require("../configs/email-actions.enum");
 const User = require('../dataBase/User');
-const { emailService, s3Servise, userService } = require('../servise');
+const { s3Servise, userService } = require('../servise');
 const userUtil = require('../util/user.util');
 
 module.exports = {
@@ -40,7 +40,7 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-            await emailService.sendMail(req.body.email, WELCOME, { userName: req.body.name });
+            // await emailService.sendMail(req.body.email, WELCOME, { userName: req.body.name });
 
             let newUser = await User.createUserWithHashPassword(req.body);
 

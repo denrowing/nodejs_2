@@ -1,7 +1,7 @@
 const S3 = require('aws-sdk/clients/s3');
 const path = require('path');
 // const uuid = require('uuid').v1;
-const { nanoId } = require('nanoid');
+const { nanoid } = require('nanoid');
 
 
 const {
@@ -14,7 +14,8 @@ const {
 
 const bucket = new S3({
     region: AWS_SE_REGION,
-    accesKeyId: AWS_S3_ACCESS_KEY,
+    name: AWS_S3_NAME,
+    accessKeyId: AWS_S3_ACCESS_KEY,
     secretAcesKey: AWS_S3_SECRET_KEY
 });
 
@@ -33,7 +34,8 @@ module.exports = {
                 Bucket: AWS_S3_NAME,
                 Body: data,
                 Key: uploadPath,
-                ContentType: mimetype
+                ContentType: mimetype,
+                ACL: 'public-read'
             })
             .promise();
     }
@@ -41,10 +43,10 @@ module.exports = {
 
 function _fileNameBuilder(filename, itemType, itemId) {
     // const fileExtension = fileName.split('.').pop(); //jpg
-    const fileExtension = fileName.extname(fileName); // .jpg
+    const fileExtension = path.extname(filename); // .jpg
 
     // return path.join(itemType, itemId, `${uuid()}${fileExtension}`);
-    return path.join(itemType, itemId, `${nanoId()}${fileExtension}`);
+    return path.join(itemType, itemId, `${nanoid()}${fileExtension}`);
 }
 
 
